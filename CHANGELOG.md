@@ -1,0 +1,2 @@
+(unreleased)
+- Adding basic template
