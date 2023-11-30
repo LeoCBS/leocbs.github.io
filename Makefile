@@ -1,15 +1,18 @@
-JEKYLL_VERSION=4
+VERSION=latest
 WD=$(shell pwd)
-JEKYLL_IMAGE=leocbs/jekyll:$(JEKYLL_VERSION)
+IMAGE=leocbs/github-pages-gem:$(VERSION)
 
 
-build-image:
-	docker build -t $(JEKYLL_IMAGE) .
+image:
+	docker build -t $(IMAGE) .
 
-build: build-image
-	docker run --rm --volume=$(WD):/srv/jekyll $(JEKYLL_IMAGE) jekyll build
-
-run: build
-	docker run --rm --volume=$(WD):/srv/jekyll -p 3000:4000 $(JEKYLL_IMAGE) jekyll serve
-
-
+server: image
+	test -d "${SITE}" || \
+		(echo -E "specify SITE e.g.: SITE=/path/to/site make server"; exit 1) && \
+	docker run --rm -it \
+		-p 4000:4000 \
+		-u `id -u`:`id -g` \
+		-v ${PWD}:/src/gh/pages-gem \
+		-v `realpath ${SITE}`:/src/site \
+		-w /src/site \
+		${IMAGE}
