@@ -7,6 +7,6 @@ Blog to write notes and trying passing some knowlodge. This project use [Jekyll]
 We have a Makefile that build a custom jekyll docker image with gem dependencies, build jekyll project and serve it. To run this blog locally just
 run command bellow:
 
-    make run
+    SITE=/home/leonardo-borges/projects/leocbs.github.io make server
 
-And access blog page on address http://localhost:3000
+And access blog page on address http://localhost:4000
